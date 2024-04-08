@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TeacherServiceImpl implements TeacherServiceInterface {
@@ -60,5 +61,18 @@ public class TeacherServiceImpl implements TeacherServiceInterface {
         }
 
         return teacher;
+    }
+
+    @Override
+    public List<Teacher> findByFirstName(String keyword) {
+        List<Teacher> allTeachers = teacherRepository.findAll();
+        return
+                allTeachers.stream()
+                        .filter(teacher ->
+                                teacher.getFirstName().toLowerCase().contains(keyword.toLowerCase()) ||
+                                        teacher.getLastName().toLowerCase().contains(keyword.toLowerCase()) ||
+                                        teacher.getSubject().toLowerCase().contains(keyword.toLowerCase())
+                        )
+                        .collect(Collectors.toList());
     }
 }

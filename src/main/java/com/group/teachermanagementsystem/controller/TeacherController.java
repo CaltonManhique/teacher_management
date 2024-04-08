@@ -3,9 +3,13 @@ package com.group.teachermanagementsystem.controller;
 import com.group.teachermanagementsystem.entity.Teacher;
 import com.group.teachermanagementsystem.service.TeacherServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class TeacherController {
@@ -20,7 +24,7 @@ public class TeacherController {
     @GetMapping("/teachers")
     public String showTeachers(Model model) {
         model.addAttribute("teachers", teacherService.findAll());
-        return "teachers";
+        return "index";
     }
 
     @GetMapping("/teachers/add")
@@ -54,5 +58,11 @@ public class TeacherController {
         return "redirect:/teachers";
     }
 
+    @GetMapping("/teachers/search")
+    public String search(@RequestParam("keyword") String keyword, Model model){
+        model.addAttribute("teachers", teacherService.findByFirstName(keyword));
+
+        return "index";
+    }
 
 }
