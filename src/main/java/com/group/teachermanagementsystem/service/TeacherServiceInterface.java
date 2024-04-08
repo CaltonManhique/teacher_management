@@ -15,4 +15,6 @@ public interface TeacherServiceInterface {
     void deleteById(Long id);
 
     Teacher findTeacherById(Long id);
+
+    List<Teacher> findByFirstName(String firstName);
 }
